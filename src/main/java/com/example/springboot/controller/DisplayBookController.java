@@ -21,13 +21,14 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/show")
 public class DisplayBookController {
     RestTemplate restTemplate= new RestTemplate();
+    String URL = "http://localhost:8081/springbootapp/api/books";
     @GetMapping("/books")
     public String findAll(Model model) {
 
 
         ResponseEntity<Book[]> response =
                 restTemplate.getForEntity(
-                        "http://localhost:8081/springbootapp/api/books",
+                        URL,
                         Book[].class);
         Book[] books = response.getBody();
         model.addAttribute("books", books);
@@ -40,14 +41,14 @@ public class DisplayBookController {
     @PostMapping("/add")
     public String addBookP(Book book){
         HttpEntity<Book> request = new HttpEntity<>(book);
-        restTemplate.postForObject("http://localhost:8081/springbootapp/api/books", request, Book.class);
+        restTemplate.postForObject(URL, request, Book.class);
         return "home";
     }
     @GetMapping("/update/{id}")
     public String updateBookG(@PathVariable Long id,Model model){
         ResponseEntity<Book> response =
                 restTemplate.getForEntity(
-                        "http://localhost:8081/springbootapp/api/books/"+ String.valueOf(id),
+                        URL+"/"+ String.valueOf(id),
                         Book.class);
         Book book = response.getBody();
         model.addAttribute("book", book);
@@ -59,7 +60,7 @@ public class DisplayBookController {
 
         book.setId(id);
         String resourceUrl =
-                "http://localhost:8081/springbootapp/api/books" + '/' + String.valueOf(book.getId());
+                URL + '/' + String.valueOf(book.getId());
         HttpEntity<Book> requestUpdate = new HttpEntity<>(book, new HttpHeaders());
         restTemplate.exchange(resourceUrl, HttpMethod.PUT, requestUpdate, Void.class);
         return "redirect:/show/books";
@@ -68,7 +69,7 @@ public class DisplayBookController {
     public String deleteBookG(@PathVariable Long id){
 
 
-        String entityUrl = "http://localhost:8081/springbootapp/api/books" + "/" + String.valueOf(id);
+        String entityUrl = URL + "/" + String.valueOf(id);
         restTemplate.delete(entityUrl);
         return "redirect:/show/books";
     }
