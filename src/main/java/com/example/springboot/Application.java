@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 @EnableJpaRepositories("com.example.springboot.repository")
 @EntityScan("com.example.springboot.entity")
 @SpringBootApplication
+//        (scanBasePackages = "example.baeldung.com")
 public class Application {
 
     public static void main(String[] args) {
