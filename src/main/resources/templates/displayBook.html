@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="book : ${books}">
+<h1 ><span th:text="${book.Id}" ></span>) <span th:text="${book.title}" ></span> </h1>
+    <p th:text="${book.author}"> </p>
+    <a th:href="@{/show/update/}+ ${book.Id}">update</a>
+    <a th:href="@{/show/delete/}+ ${book.Id}">delete</a>
+</div>
+</body>
+</html>
